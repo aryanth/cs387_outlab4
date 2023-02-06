@@ -1,6 +1,4 @@
 import React,{ Fragment,useState } from "react";
-import {redirect} from "react-router-dom";
-import {Home} from "./home";
 async function loginUser(credentials) {
     return fetch('http://localhost:8080/login/', {
       method: 'POST',
@@ -14,7 +12,7 @@ async function loginUser(credentials) {
         return data;
       }
       )
-   }
+}
 
 export function LoginForm(){
 
@@ -30,28 +28,32 @@ export function LoginForm(){
             username,
             password
           });
-        if(data){
-          window.location.replace("/home/")
+        console.log(data);
+        console.log(data.status);
+        if(data.status == "200"){
+          window.location.replace("/home/");
         }
-   
+        else{
+          window.location.reload(false);
+        }
     }
     return (
         <Fragment>
-        <head>
-            <link rel="stylesheet" href="./App.css" />
-        </head>
-        <body>
-            <form onSubmit={OnSubmitForm}>
-                <h2>Login</h2>
-                <div class="input-field">
-                    <input type="text" name="username" id="username" placeholder="Enter Username" value={username} onChange={e => SetUsername(e.target.value)}/>
-                </div>
-                <div class="input-field">
-                    <input type="password" name="password" id="password" placeholder="Enter Password" value={password} onChange={e => SetPassword(e.target.value)}/>
-                </div>
-                <input type="submit" value="LogIn" />
-            </form>
-        </body>
+          <head>
+              <link rel="stylesheet" href="./App.css" />
+          </head>
+          <body>
+              <form onSubmit={OnSubmitForm}>
+                  <h2>Login</h2>
+                  <div class="input-field">
+                      <input type="text" name="username" id="username" placeholder="Enter Username" value={username} onChange={e => SetUsername(e.target.value)}/>
+                  </div>
+                  <div class="input-field">
+                      <input type="password" name="password" id="password" placeholder="Enter Password" value={password} onChange={e => SetPassword(e.target.value)}/>
+                  </div>
+                  <input type="submit" value="LogIn" />
+              </form>
+          </body>
         </Fragment>
     );
 
