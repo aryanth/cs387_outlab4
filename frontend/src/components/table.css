@@ -1,0 +1,35 @@
+.Table1 {
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.Table2{
+
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.header{
+    text-align: center;
+}
+    
+  table {
+    border: 2px solid forestgreen;
+    width: 800px;
+    height: 200px;
+  }
+    
+  th {
+    border-bottom: 1px solid black;
+  }
+    
+  td {
+    text-align: center;
+  }
