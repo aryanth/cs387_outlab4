@@ -1,8 +1,11 @@
 import './table.css'
 import React,{useState,useEffect, lazy} from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { string } from 'prop-types';
 
 async function RegCourse(course_data) {
+
+    console.log("HERE");
     return fetch('http://localhost:8080/home/registration', {
       method: 'POST',
       headers: {
@@ -11,37 +14,56 @@ async function RegCourse(course_data) {
       body: JSON.stringify(course_data)
     })
       .then(function(data){
+        console.log(data);
         return data;
       }
       )
+
 }
 
+let slotmap = new Map();
+let slot_set = new Set();
+let perv_courses = new Set();
 export function Registration(){
 
     const [data, setData] = useState([]);
     let [selected_course,selVal] = useState([]);
     let [chosen_sec_id, SetChosenSection] = useState("1");
-    let [mod_data,setModData] = useState([]);
-
-
-    const RegisterCourse = async (course_id,sec_id) => {
-        console.log("button has been pressed");
-        console.log(course_id);
-        console.log(sec_id);
-        let course_data = {course_id:course_id,sec_id:sec_id};
-        console.log(course_data);
-        const data = await RegCourse({course_data});
-        console.log(data);
-        //window.location.reload(false);
-        //console.log(ID);
-        //console.log(course_id);
-        //console.log(sec_id);
-      }
-
+    const [prereq,setPrereq] = useState([]);
+    //let [mod_data,setModData] = useState([]);
+    
+    //const [done,SetDone] = useState([]);
+    
     useEffect(() => {
+        
         async function fetchData() {
+        const response0 = await fetch('http://localhost:8080/home/');
+        const json0 = await response0.json();  
+        console.log(json0)    
           const response = await fetch(`http://localhost:8080/home/registration`);
-          const json = await response.json();
+          const json1 = await response.json();
+          const json = json1.info1;
+          //console.log("this is json data for 1");
+          
+          const course_data = json1.info2;
+
+          course_data.forEach(function(item){
+            let a = item.course_id + '/'+item.sec_id;
+            slotmap.set(a,item.time_slot_id);
+            
+        });  
+
+        json0.prev_sem_info.forEach(function(item){
+            perv_courses.add(item.course_id);
+        })
+        
+        json0.curr_sem_info.forEach(function(item){
+            let a = item.course_id + '/'+item.sec_id;
+            
+            slot_set.add(slotmap.get(a));
+        });
+        console.log(slot_set);
+        
           let output = [];
             json.forEach(function(item) {
             var existing = output.filter(function(v, i) {
@@ -70,6 +92,29 @@ export function Registration(){
         fetchData();
     }, []);
     
+    const RegisterCourse = async (course_id,sec_id) => {
+        console.log("button has been pressed");
+        console.log(course_id);
+        console.log(sec_id);
+        let course_data = {course_id:course_id,sec_id:sec_id};
+        console.log("Coures data");
+        console.log(course_data);
+        let string1 = course_id+'/'+sec_id;
+        console.log(slot_set);
+        if(!slot_set.has(slotmap.get(string1)) ){
+            const data = await RegCourse({course_data});
+            slot_set.add(slotmap.get(string1));
+            console.log(data);
+        }
+        else{
+            console.log("Slot Clash");
+        }
+        //window.location.reload(false);
+        //console.log(ID);
+        //console.log(course_id);
+        //console.log(sec_id);
+      }
+
     const handleOnSearch = (string, results) => {
         // onSearch will have as the first callback parameter
         // the string searched and for the second the results.
@@ -144,10 +189,10 @@ export function Registration(){
 
     if(data){
         let count  = 0;
-        {data.map((val, key) => {
+        data.map((val, key) => {
             val.id = count;
             count  = count + 1;
-        })}
+        })
         console.log("This is the modified data");
         console.log(data);
 

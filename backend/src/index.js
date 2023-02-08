@@ -6,14 +6,12 @@ const bcrypt = require ('bcrypt');
 const cors = require('cors');
 const { Pool } = require('pg');
 const PORT = 8080;
+const fs = require('fs')
 
-const pool = new Pool({
-  user: 'postgres',
-  host: '127.0.0.1',
-  database: 'lab4db',
-  password: '123',
-  port: 5432,
-})
+let rawdata = fs.readFileSync('config.json');
+let db_info = JSON.parse(rawdata);
+console.log(db_info)
+const pool = new Pool(db_info)
 pool.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
@@ -48,8 +46,8 @@ pool.query(curr_sem_text, (err, res) => {
     //myReject(err.stack);
   } else {
     console.log("This is the current semester info");
-    console.log(res.rows[0]);
-    curr_sem = res.rows[0];
+    console.log(res.rows[1]);
+    curr_sem = res.rows[1];
   }
 });
 
@@ -186,9 +184,18 @@ app.get('/home/registration/', async(req,res) => {
   if(session && session.userid){
     const text14 = 'select course.course_id,title,sec_id from section,course where (course.course_id,semester,year) = (section.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\');';
     console.log(text14);
+
     let running_courses = await pool.query(text14);
-    console.log(running_courses.rows);
-    res.send(running_courses.rows);
+    const text16 = 'select course.course_id,sec_id,time_slot_id from section,course where course.course_id = section.course_id and semester = \'' + curr_sem.semester + '\' and year = \'' + curr_sem.year + '\';';
+    const text17 = 'select A.course_id,prereq_id from (select course.course_id,sec_id,time_slot_id from section,course where course.course_id = section.course_id  and semester = \'' + curr_sem.semester + '\' and year = \'' + curr_sem.year + '\') as A,prereq where prereq.course_id = A.course_id;';
+    let all_slots = await pool.query(text16);
+    console.log(text17);
+    let prereq = await pool.query(text17);
+    
+    let dat2 = {info1 : running_courses.rows , info2 : all_slots.rows,info3:prereq.rows};
+    console.log(dat2);
+    
+    res.send(dat2);
   }
 })
 
