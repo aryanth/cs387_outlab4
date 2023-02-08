@@ -61,6 +61,7 @@ export function Home() {
         //<h1>home of user</h1>
         <div>
           <a href="/course/running">Running Courses</a>
+          <a href="/home/registration">Register for courses</a>
           <a href="/logout">Logout</a>
           <h2 class="header">Student Information</h2>
           <div className="Table1">

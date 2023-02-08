@@ -8,6 +8,7 @@ import {RunningCourses} from './components/runningCourses';
 import {CourseInfo} from './components/courseInfo';
 import {InstructorInfo} from './components/instructorInfo';
 import {Logout} from './components/logout';
+import {Registration} from './components/registration';
 
 function App() {
   return(
@@ -20,6 +21,7 @@ function App() {
       <Route path='/course/:course_id/' element={<CourseInfo/>}/>
       <Route path='/instructor/:instructor_id/' element={<InstructorInfo/>}/>
       <Route path='/logout/' element={<Logout/>}/>
+      <Route path='/home/registration/' element={<Registration/>}/>
       </Routes>
     </Router>
   );

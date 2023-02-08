@@ -181,6 +181,28 @@ app.get('/instructor/:instructor_id/', async(req,res) => {
   }
 })
 
+app.get('/home/registration/', async(req,res) => {
+  console.log("Have reached the registration page");
+  if(session && session.userid){
+    const text14 = 'select course.course_id,title,sec_id from section,course where (course.course_id,semester,year) = (section.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\');';
+    console.log(text14);
+    let running_courses = await pool.query(text14);
+    console.log(running_courses.rows);
+    res.send(running_courses.rows);
+  }
+})
+
+app.post('/home/registration', async (req,res)  =>{
+  if(session && session.userid){
+    console.log(req.body);
+    const text15 = 'insert into takes values (\'' + session.userid + '\',\'' + req.body.course_data.course_id + '\',\'' + req.body.course_data.sec_id + '\',\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\') ;';
+    console.log(text15);
+    await pool.query(text15);
+    console.log("Insertion is done");
+    res.send("done");
+  }
+})
+
 
 app.get('/logout',(req,res) => {
   req.session.destroy();
