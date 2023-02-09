@@ -12,6 +12,8 @@ import {Registration} from './components/registration';
 
 function App() {
   return(
+    <div>
+    
     <Router>
       <Routes>
       <Route path='/login/' element={<LoginForm/>} />
@@ -24,6 +26,7 @@ function App() {
       <Route path='/home/registration/' element={<Registration/>}/>
       </Routes>
     </Router>
+    </div>
   );
 }
 

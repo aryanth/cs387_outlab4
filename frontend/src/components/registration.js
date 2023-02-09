@@ -5,7 +5,7 @@ import { string } from 'prop-types';
 
 async function RegCourse(course_data) {
 
-    console.log("HERE");
+    
     return fetch('http://localhost:8080/home/registration', {
       method: 'POST',
       headers: {
@@ -14,25 +14,25 @@ async function RegCourse(course_data) {
       body: JSON.stringify(course_data)
     })
       .then(function(data){
-        console.log(data);
+        console.log("back_data");
+        //console.log(data.data);
         return data;
       }
       )
 
 }
 
-let slotmap = new Map();
-let slot_set = new Set();
-let perv_courses = new Set();
+
 export function Registration(){
 
     const [data, setData] = useState([]);
     let [selected_course,selVal] = useState([]);
     let [chosen_sec_id, SetChosenSection] = useState("1");
-    const [prereq,setPrereq] = useState([]);
-    //let [mod_data,setModData] = useState([]);
     
-    //const [done,SetDone] = useState([]);
+    const [slot,setSlot] = useState(new Map());
+    const [occupied,setOcuppied] = useState(new Set());
+    const [perv_course,setPrev] = useState(new Set());
+   
     
     useEffect(() => {
         
@@ -47,15 +47,18 @@ export function Registration(){
           
           const course_data = json1.info2;
 
-          course_data.forEach(function(item){
+          let slotmap = new Map();
+          let slot_set = new Set();
+          
+          //let perq = new Set();  
+       
+        course_data.forEach(function(item){
             let a = item.course_id + '/'+item.sec_id;
             slotmap.set(a,item.time_slot_id);
             
         });  
-
-        json0.prev_sem_info.forEach(function(item){
-            perv_courses.add(item.course_id);
-        })
+        setSlot(slotmap);    
+        
         
         json0.curr_sem_info.forEach(function(item){
             let a = item.course_id + '/'+item.sec_id;
@@ -63,7 +66,11 @@ export function Registration(){
             slot_set.add(slotmap.get(a));
         });
         console.log(slot_set);
+        setOcuppied(slot_set);
+
         
+        
+        //setPrereq(perq);
           let output = [];
             json.forEach(function(item) {
             var existing = output.filter(function(v, i) {
@@ -87,8 +94,9 @@ export function Registration(){
           }
           */
           setData(output);
+         
         }
-    
+        
         fetchData();
     }, []);
     
@@ -100,15 +108,17 @@ export function Registration(){
         console.log("Coures data");
         console.log(course_data);
         let string1 = course_id+'/'+sec_id;
-        console.log(slot_set);
-        if(!slot_set.has(slotmap.get(string1)) ){
+        console.log("prereqs for the course");
+        
+        if(!occupied.has(slot.get(string1)) ){
             const data = await RegCourse({course_data});
-            slot_set.add(slotmap.get(string1));
+            occupied.add(slot.get(string1));
             console.log(data);
         }
         else{
             console.log("Slot Clash");
         }
+
         //window.location.reload(false);
         //console.log(ID);
         //console.log(course_id);
@@ -198,6 +208,7 @@ export function Registration(){
 
         return (
             <div>
+                <a href="/logout">Logout</a>
             <div>
             <header>
                 <div style={{ width: 600, margin: 20 }}>
@@ -289,6 +300,7 @@ export function Registration(){
                     <th>sec_id</th>
                     <th>Register</th>
                 </tr>
+                
                 </table>
             )}
             </div>
