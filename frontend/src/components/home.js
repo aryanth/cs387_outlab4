@@ -1,4 +1,5 @@
-import './table.css'
+import './table.css';
+// /import'../home.css';
 import React,{useState,useEffect} from 'react';
 
 async function DelCourse(course_data) {
@@ -59,34 +60,38 @@ export function Home() {
       return (
         
         //<h1>home of user</h1>
-        <div>
-          <a href="/course/running">Running Courses</a>
-          <a href="/home/registration">Register for courses</a>
-          <a href="/logout">Logout</a>
-          <h2 class="header">Student Information</h2>
-          <div className="Table1">
-            <table>
-              <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>dept_name</th>
-                <th>tot_cred</th>
-              </tr>
+        <body>
+          <div>
+           <div class = "cd-button">
+           <a class = "link" href="/home"><h3>Home</h3></a>   
+          <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
+          <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
+          <a class = "link" href="/logout"><h3>Logout</h3></a>
+          </div> 
+          <div class="cd-table-container">
+          <h2 class='title'>Student Information</h2>
+          {/* <div className="cd-table">
+            <table> */}
+              
+                
+              
               {(data.stud_info).map((val, key) => {
                   return (
-                  <tr key={key}>
-                    <td>{val.id}</td>
-                    <td>{val.name}</td>
-                    <td>{val.dept_name}</td>
-                    <td>{val.tot_cred}</td>
-                  </tr>
+                  <div>
+                    <h3>id: {val.id}</h3>
+                    <h3>name: {val.name}</h3>
+                    <h3>dept_name: {val.dept_name}</h3>
+                    <h3>tot_cred: {val.tot_cred}</h3>
+                  </div>
                   )
               })}
 
-            </table>
+            {/* </table>
+            </div> */}
           </div>
-          <h2 class="header">Current Semester</h2>
-          <div className="Table2">
+          <div class="cd-table-container">
+          <h2 class="title">Current Semester</h2>
+          <div className='cd-table'>
             <table>
               <tr>
                 <th>course_id</th>
@@ -110,8 +115,10 @@ export function Home() {
               })}
             </table>
           </div>
-          <h2 class="header">Previous Semesters</h2>
-          <div className="Table3">
+          </div>
+          <div class="cd-table-container">
+          <h2 class="title">Previous Semesters</h2>
+          <div className="cd-table">
             <table>
               <tr>
                 <th>course_id</th>
@@ -133,7 +140,9 @@ export function Home() {
               })}
             </table>
           </div>
-        </div>
+          </div>
+          </div>
+        </body>
       
       )
     }

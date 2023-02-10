@@ -28,17 +28,22 @@ export function RunningCourses(){
 
         return(
             <div>
-                <a href="/logout">Logout</a>
-                <h2>Running courses in the given department</h2>
-                <div className="Table3">
+                <div class = "cd-button">
+                <a class = "link" href="/home"><h3>Home</h3></a> 
+                    <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
+                    <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
+                    <a class = "link" href="/logout"><h3>Logout</h3></a>
+                </div> 
+                
+                <div className="cd-table">
                     <table>
                         <tr>
-                            <th>course_id</th>
+                            <th><h2>Running courses in the given department</h2></th>
                         </tr>
                         {data.map((val, key) => {
                             return(
                                 <tr key={key}>
-                                    <td><a href={"/course/" + val.course_id}>{val.course_id}</a></td>
+                                    <td><a href={"/course/" + val.course_id}><h3>{val.course_id} </h3></a></td>
                                 </tr>
                             )
                         })}

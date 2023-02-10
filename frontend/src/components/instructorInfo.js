@@ -28,9 +28,14 @@ export function InstructorInfo(){
         return(
             
             <div>
-                <a href="/logout">Logout</a>
+                <div class = "cd-button">
+                <a class = "link" href="/home"><h3>Home</h3></a>         
+          <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
+          <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
+          <a class = "link" href="/logout"><h3>Logout</h3></a>
+          </div>
                 <h2 class="header">Instructor Information</h2>
-                <div className="Table1">
+                <div className="cd-table">
                     <table>
                     <tr>
                         <th>name</th>
@@ -48,7 +53,7 @@ export function InstructorInfo(){
                     </table>
                 </div>
                 <h2 class="header">Current Semester</h2>
-                <div className="Table2">
+                <div className="cd-table">
                     <table>
                     <tr>
                         <th>course_id</th>
@@ -64,8 +69,10 @@ export function InstructorInfo(){
                     })}
                     </table>
                 </div>
+
                 <h2 class="header">Previous Semesters</h2>
-                <div className="Table3">
+                <div className="cd-table">
+                    {(Object.keys(data.prev_sem_data)!=0) &&
                     <table>
                     <tr>
                         <th>course_id</th>
@@ -80,6 +87,7 @@ export function InstructorInfo(){
                         )
                     })}
                     </table>
+                    }
                 </div>
             </div>
         )

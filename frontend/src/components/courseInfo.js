@@ -29,9 +29,14 @@ export function CourseInfo(){
       return(
 
         <div>
-          <a href="/logout">Logout</a>
+          <div class = "cd-button">
+          <a class = "link" href="/home"><h3>Home</h3></a> 
+          <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
+          <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
+          <a class = "link" href="/logout"><h3>Logout</h3></a>
+          </div> 
           <h2 class="header">Course Information</h2>
-          <div className="Table1">
+          <div className="cd-table">
             <table>
               <tr>
                 <th>course_id</th>
@@ -57,7 +62,7 @@ export function CourseInfo(){
             </table>
           </div>
           <h2 class="header">Prerequisite courses</h2>
-          <div className="Table2">
+          <div className="cd-table">
             <table>
               <tr>
                 <th>prereq_id</th>
@@ -74,7 +79,7 @@ export function CourseInfo(){
             </table>
           </div>
           <h2 class="header">Current Instructors</h2>
-          <div className="Table3">
+          <div className="cd-table">
             <table>
               <tr>
                 <th>id</th>

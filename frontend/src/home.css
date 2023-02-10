@@ -3,37 +3,11 @@ body {
     font-family: 'Rubik', sans-serif;
 }
 
-.cd-button {
-    background: #fff;
-    width: 1080px;
-    margin: 65px auto;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-    border-radius: 4px;
-    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.2);
-    display: inline-block;
-}
-
-.cd-button a.link {
-    display: inline-block;
-    text-decoration: none;
-    color: #1719b9;
-    /*background-color: #017721;*/
-    border-color: #666;
-    /* margin-right: 10px; */
-    width: 25%;
-    text-align: center;
-}
-
 .cd-table-container {
     background: #fff;
     box-shadow: 1px 2px 26px rgba(0, 0, 0, 0.2);
     padding: 15px;
-    max-width: 1080px;
-    width: 100%;
+    max-width: 720px;
 }
 
 
@@ -44,7 +18,6 @@ body {
     color: #666;
     margin: 10px auto;
     border-collapse: collapse;
-    align-content: stretch;
 }
 
 .cd-table tr,
@@ -58,6 +31,7 @@ body {
     background: #017721;
     color: #fff;
     padding: 10px;
+    width: 20%;
 }
 
 

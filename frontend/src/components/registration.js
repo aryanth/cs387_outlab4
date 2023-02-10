@@ -208,7 +208,12 @@ export function Registration(){
 
         return (
             <div>
-                <a href="/logout">Logout</a>
+                <div class = "cd-button">
+                <a class = "link" href="/home"><h3>Home</h3></a>     
+                <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
+                <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
+                <a class = "link" href="/logout"><h3>Logout</h3></a>
+          </div> 
             <div>
             <header>
                 <div style={{ width: 600, margin: 20 }}>
@@ -264,8 +269,8 @@ export function Registration(){
             </div>
             */}
             </div>
-            {selected_course ? (
-            <div className="Table1">
+            {Object.keys(selected_course)!==0 ? (
+            <div className="cd-table">
                 <table>
                 <tr>
                     <th>course_id</th>
@@ -293,14 +298,29 @@ export function Registration(){
                 </table>
             </div>
             ) : (
-                <table>
+                <table class = "cd-table">
                 <tr>
                     <th>course_id</th>
                     <th>title</th>
                     <th>sec_id</th>
                     <th>Register</th>
                 </tr>
-                
+                {data.map((val, key) => {
+                    return (
+                    <tr key={key}>
+                        <td>{val.course_id}</td>
+                        <td>{val.title}</td>
+                        <td>
+                            <select name="sec_id" id="sec_id" onChange={e => SetChosenSection(e.target.value)}>
+                            {val.sec_id.map(name => (  
+                                <option>{name}</option>
+                            ))}  
+                            </select>
+                        </td>
+                        <td><button onClick={() => RegisterCourse(val.course_id,chosen_sec_id)}>Register</button></td>
+                    </tr>
+                    )
+                })}
                 </table>
             )}
             </div>

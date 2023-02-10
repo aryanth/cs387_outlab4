@@ -25,12 +25,17 @@ export function RunningDepartment(){
     if(data){
         return(
             <div>
-                <a href="/logout">Logout</a>
-                <h2>Departments which have running courses this semester</h2>
-                <div className="Table3">
+                <div class = "cd-button">
+                <a class = "link" href="/home"><h3>Home</h3></a> 
+                    <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
+                    <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
+                    <a class = "link" href="/logout"><h3>Logout</h3></a>
+                </div> 
+                
+                <div className="cd-table">
                     <table>
                         <tr>
-                            <th>dept_name</th>
+                            <th><h2>Departments which have running courses this semester</h2></th>
                         </tr>
                         {data.map((val, key) => {
                             return(
