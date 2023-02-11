@@ -9,7 +9,10 @@ export function CourseInfo(){
     useEffect(() => {
         async function fetchData(course_id) {
           console.log(course_id);
+          
           const response = await fetch(`http://localhost:8080/course/${course_id}`);
+          
+
           const json = await response.json();
           console.log("This is the json data for the particular course");
           console.log(json);
@@ -37,31 +40,25 @@ export function CourseInfo(){
           </div> 
           <h2 class="header">Course Information</h2>
           <div className="cd-table">
-            <table>
-              <tr>
-                <th>course_id</th>
-                <th>sec_id</th>
-                <th>title</th>
-                <th>credits</th>
-                <th>building</th>
-                <th>room_number</th>
-              </tr>
+            
+              
               {(data.course_data).map((val, key) => {
                   return (
-                  <tr key={key}>
-                    <td>{val.course_id}</td>
-                    <td>{val.sec_id}</td>
-                    <td>{val.title}</td>
-                    <td>{val.credits}</td>
-                    <td>{val.building}</td>
-                    <td>{val.room_number}</td>
-                  </tr>
+                  <div>
+                    <h2>Course Id   :  {val.course_id}</h2>
+                    <h2>Title        :  {val.title}</h2>
+                    <h2>Credits     :  {val.credits}</h2>
+                    <h2>Dept_name  : {val.dept_name}   </h2>
+                    {val.building && (<h2>Building    :  {val.building}</h2>)}
+                    {val.room_number && <h2>Room Number : {val.room_number}</h2>}
+                  </div>
                   )
               })}
 
-            </table>
+            
           </div>
           <h2 class="header">Prerequisite courses</h2>
+          {(data.prereq_data.length === 0)?<h3>None</h3>:
           <div className="cd-table">
             <table>
               <tr>
@@ -71,14 +68,16 @@ export function CourseInfo(){
               {(data.prereq_data).map((val, key) => {
                 return(
                   <tr key={key}>
-                    <td>{val.prereq_id}</td>
+                    <td><a href={"/course/" + val.prereq_id}>{val.prereq_id}</a></td>
                     <td>{val.title}</td>
                   </tr>
                 )
               })}
             </table>
           </div>
+          }
           <h2 class="header">Current Instructors</h2>
+          {(data.prereq_data.length === 0)?<h3>None</h3>:
           <div className="cd-table">
             <table>
               <tr>
@@ -92,7 +91,7 @@ export function CourseInfo(){
                 )
               })}
             </table>
-          </div>
+          </div>}
       </div>
 
       )

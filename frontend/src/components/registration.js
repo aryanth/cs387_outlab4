@@ -1,7 +1,6 @@
 import './table.css'
 import React,{useState,useEffect, lazy} from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import { string } from 'prop-types';
 
 async function RegCourse(course_data) {
 

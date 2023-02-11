@@ -157,9 +157,19 @@ app.get('/course/:course_id/', async(req,res) => {
   console.log("have reached the course info page");
 
   if(session && session.userid){
-    const text8 = 'select course.course_id,sec_id,title,credits,building,room_number from course,section where (course.course_id,section.semester,section.year,course.course_id) = (section.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\',\'' + req.params.course_id + '\');';
+    const text8 = 'select course.dept_name,course.course_id,sec_id,title,credits,building,room_number from course,section where (course.course_id,section.semester,section.year,course.course_id) = (section.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\',\'' + req.params.course_id + '\');';
     console.log(text8);
+    
     let course_data = await pool.query(text8);
+    console.log(course_data.rows.length);
+    if(course_data.rows.length == 0){
+      const text23 = 'select course.course_id,title,credits,dept_name from course where course.course_id = \'' + req.params.course_id + '\';';
+      console.log(text23);
+      course_data = await pool.query(text23);
+      
+      console.log(course_data.rows.length);
+    }
+
     const text9 = 'select distinct prereq_id,title from prereq,course where course.course_id = prereq.prereq_id and prereq.course_id = \'' + req.params.course_id + '\';';
     console.log(text9);
     let prereq_data = await pool.query(text9);
@@ -170,6 +180,7 @@ app.get('/course/:course_id/', async(req,res) => {
     res.send(final_json);
   }
 })
+
 
 app.get('/instructor/:instructor_id/', async(req,res) => {
 
@@ -220,7 +231,7 @@ app.post('/home/registration', async (req,res)  =>{
     const text19 = 'select prereq_id from prereq where course_id = \'' + req.body.course_data.course_id + '\';';
     console.log(text19);
     let info = await pool.query(text19);
-    console.log(info.rows);
+    console.log(info.rows.length);
 
     text20 = 'select prereq_id from prereq where course_id = \'' + req.body.course_data.course_id + '\' intersect select course.course_id from takes,course,reg_dates where (takes.course_id,takes.semester,takes.year,takes.ID) = (course.course_id,reg_dates.semester,reg_dates.year,\'' + session.userid + '\') and (reg_dates.semester,reg_dates.year) != (\''+ curr_sem.semester + '\',\''+ curr_sem.year + '\');';
     console.log(text20);
