@@ -49,8 +49,6 @@ export function CourseInfo(){
                     <h2>Title        :  {val.title}</h2>
                     <h2>Credits     :  {val.credits}</h2>
                     <h2>Dept_name  : {val.dept_name}   </h2>
-                    {val.building && (<h2>Building    :  {val.building}</h2>)}
-                    {val.room_number && <h2>Room Number : {val.room_number}</h2>}
                   </div>
                   )
               })}

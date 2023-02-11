@@ -157,7 +157,7 @@ app.get('/course/:course_id/', async(req,res) => {
   console.log("have reached the course info page");
 
   if(session && session.userid){
-    const text8 = 'select course.dept_name,course.course_id,sec_id,title,credits,building,room_number from course,section where (course.course_id,section.semester,section.year,course.course_id) = (section.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\',\'' + req.params.course_id + '\');';
+    const text8 = 'select distinct course.dept_name,course.course_id,title,credits from course,section where (course.course_id,section.semester,section.year,course.course_id) = (section.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\',\'' + req.params.course_id + '\');';
     console.log(text8);
     
     let course_data = await pool.query(text8);
