@@ -47,6 +47,14 @@ body {
     align-content: stretch;
 }
 
+.cd-table table {
+    width: 100%;
+    color: #666;
+    margin: 10px auto;
+    border-collapse: collapse;
+    align-content: stretch;
+}
+
 .cd-table tr,
 .cd-table td {
     border: 1px solid #ccc;

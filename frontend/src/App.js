@@ -16,6 +16,7 @@ function App() {
     
     <Router>
       <Routes>
+    
       <Route path='/login/' element={<LoginForm/>} />
       <Route path='/home/' element={<Home/>} />
       <Route path='/course/running/' element={<RunningDepartment/>}/>
