@@ -191,10 +191,10 @@ app.get('/instructor/:instructor_id/', async(req,res) => {
     const text11 = 'select name,dept_name from instructor where ID = \'' + req.params.instructor_id + '\';';
     console.log(text11);
     let instr_info = await pool.query(text11);
-    const text12 = 'select distinct teaches.course_id,title from teaches,course where (teaches.course_id,semester,year,ID) = (course.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\',\'' + req.params.instructor_id + '\');';
+    const text12 = 'select distinct teaches.course_id,title from teaches,course where (teaches.course_id,semester,year,ID) = (course.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\',\'' + req.params.instructor_id + '\') order by (teaches.course_id);';
     console.log(text12);
     let curr_sem_data = await pool.query(text12);
-    const text13 = 'select distinct teaches.course_id,title from teaches,course where (teaches.course_id,ID) = (course.course_id,\'' + req.params.instructor_id + '\') and (semester,year) != (\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\');';
+    const text13 = 'select distinct teaches.course_id,title from teaches,course where (teaches.course_id,ID) = (course.course_id,\'' + req.params.instructor_id + '\') and (semester,year) != (\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\') order by (teaches.course_id);';
     console.log(text13);
     let prev_sem_data = await pool.query(text13);
 
@@ -239,7 +239,7 @@ app.post('/home/registration', async (req,res)  =>{
     
     set1 = new Set();
     prereqs = true;
-    
+    let res_text;
     info2.rows.forEach(function(item){
       set1.add(item.prereq_id);
     });
@@ -250,15 +250,21 @@ app.post('/home/registration', async (req,res)  =>{
     });
     console.log(prereqs);
     if(prereqs){
-      const text15 = 'insert into takes values (\'' + session.userid + '\',\'' + req.body.course_data.course_id + '\',\'' + req.body.course_data.sec_id + '\',\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\') ;';
+      const text15 = 'insert into takes (id,course_id,sec_id,semester,year) values (\'' + session.userid + '\',\'' + req.body.course_data.course_id + '\',\'' + req.body.course_data.sec_id + '\',\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\') ;';
       console.log(text15);
       await pool.query(text15);
       console.log("Insertion is done");
-      res.send("done");
+      //res_text = "done";
+      res.status(200).send("OK")
+
     }
     else{
-      res.send("prereq not satisfied");
+      //res_text = "Prereq not satisfied";
+      res.status(404).send("prereq not statisfied");
+
+
     }
+
   }
 })
 

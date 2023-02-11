@@ -26,7 +26,7 @@ export function Registration(){
 
     const [data, setData] = useState([]);
     let [selected_course,selVal] = useState([]);
-    let [chosen_sec_id, SetChosenSection] = useState("1");
+    let [chosen_sec_id, SetChosenSection] = useState("-");
     
     const [slot,setSlot] = useState(new Map());
     const [occupied,setOcuppied] = useState(new Set());
@@ -110,12 +110,22 @@ export function Registration(){
         console.log("prereqs for the course");
         
         if(!occupied.has(slot.get(string1)) ){
-            const data = await RegCourse({course_data});
-            occupied.add(slot.get(string1));
-            console.log(data);
+            if(sec_id!='-'){
+                const data = await RegCourse({course_data});
+                occupied.add(slot.get(string1));
+                console.log("this");
+                console.log(data.status);
+                if(data.status==200){
+                    alert("Registered")
+                }
+                else{
+                    alert("Prereq not fullfilled");
+                }
+            }
+            else{alert("select section");}
         }
         else{
-            console.log("Slot Clash");
+            alert("Slot Clash with another course");
         }
 
         //window.location.reload(false);
@@ -284,6 +294,7 @@ export function Registration(){
                         <td>{val.title}</td>
                         <td>
                             <select name="sec_id" id="sec_id" onChange={e => SetChosenSection(e.target.value)}>
+                            <option value="-">-</option>
                             {val.sec_id.map(name => (  
                                 <option>{name}</option>
                             ))}  
