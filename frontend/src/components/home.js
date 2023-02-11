@@ -30,18 +30,21 @@ export function Home() {
     const data = await DelCourse({course_data});
     console.log(data);
     window.location.reload(false);
-    //console.log(ID);
-    //console.log(course_id);
-    //console.log(sec_id);
+    
   }
 
   useEffect(() => {
     async function fetchData() {
       const response = await fetch('http://localhost:8080/home/');
       const json = await response.json();
+      
       console.log("This is the json data ")
+      //const parse = JSON.parse(json.prev_sem_info)
+      
+     
+    
       console.log(json);
-      console.log(response);
+      //console.log(response);
       setData(json);
       setResponse(response);
     }
@@ -55,6 +58,9 @@ export function Home() {
     window.location.replace("/login/");
   }
   */
+
+  
+
   if(response_val && response_val.status == "200"){
     if(data && data.stud_info && data.curr_sem_info && data.prev_sem_info){
       return (
@@ -116,31 +122,40 @@ export function Home() {
             </table>
           </div>
           </div>
-          <div class="cd-table-container">
-          <h2 class="title">Previous Semesters</h2>
-          <div className="cd-table">
-            <table>
-              <tr>
-                <th>course_id</th>
-                <th>sec_id</th>
-                <th>title</th>
-                <th>credits</th>
-                <th>grade</th>
-              </tr>
-              {(data.prev_sem_info).map((val, key) => {
+          
+           
+              
+              {Object.keys(data.prev_sem_info).map(key0 => {
                 return(
-                  <tr key={key}>
+                  <div class="cd-table-container">
+                  <h2 class="title">{key0}</h2>
+                  <div className="cd-table">  
+                <table>
+                <tr>
+                  <th>course_id</th>
+                  <th>sec_id</th>
+                  <th>title</th>
+                  <th>credits</th>
+                  <th>grade</th>
+                </tr>
+                { (data.prev_sem_info[key0]).map((val,key)=>{
+                  return(
+                  <tr key={Math.random()}>
                     <td>{val.course_id}</td>
                     <td>{val.sec_id}</td>
                     <td>{val.title}</td>
                     <td>{val.credits}</td>
                     <td>{val.grade}</td>
                   </tr>
+                  )
+                }) }
+                </table>
+                </div>
+                </div>
                 )
               })}
-            </table>
-          </div>
-          </div>
+            
+          
           </div>
         </body>
       

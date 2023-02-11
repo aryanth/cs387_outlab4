@@ -39,6 +39,7 @@ app.use(cookieParser());
 
 let session;
 let curr_sem;
+let sems;
 const curr_sem_text = "select semester,year from reg_dates order by start_time desc";
 pool.query(curr_sem_text, (err, res) => {
   if (err) {
@@ -48,6 +49,7 @@ pool.query(curr_sem_text, (err, res) => {
     console.log("This is the current semester info");
     console.log(res.rows[0]);
     curr_sem = res.rows[0];
+    sems = res.rows;
   }
 });
 
@@ -91,10 +93,22 @@ app.get('/home/', async (req,res) => {
     const text3 = 'select course.course_id,sec_id,title,credits,grade from takes,course,reg_dates where (takes.course_id,takes.semester,takes.year,takes.ID,reg_dates.semester,reg_dates.year) = (course.course_id,reg_dates.semester,reg_dates.year,\'' + session.userid + '\',\''+ curr_sem.semester + '\',\''+ curr_sem.year + '\');';
     console.log(text3);
     let curr_sem_info = await pool.query(text3);
-    const text4 = 'select course.course_id,sec_id,title,credits,grade from takes,course,reg_dates where (takes.course_id,takes.semester,takes.year,takes.ID) = (course.course_id,reg_dates.semester,reg_dates.year,\'' + session.userid + '\') and (reg_dates.semester,reg_dates.year) != (\''+ curr_sem.semester + '\',\''+ curr_sem.year + '\');';
-    console.log(text4);
-    let prev_sem_info = await pool.query(text4);
-    let final_json = {stud_info:stud_info.rows,curr_sem_info:curr_sem_info.rows,prev_sem_info:prev_sem_info.rows};
+    
+    let prev_sem_info = {}
+    for (let i = 1; i < sems.length;i++){
+      const text40 = 'select course.course_id,sec_id,title,credits,grade from takes,course,reg_dates where (takes.course_id,takes.semester,takes.year,takes.ID) = (course.course_id,reg_dates.semester,reg_dates.year,\'' + session.userid + '\') and (reg_dates.semester,reg_dates.year) = (\''+ sems[i].semester + '\',\''+ sems[i].year + '\');';
+      console.log(text40);
+      let query = await pool.query(text40);
+      console.log(query.rows);
+      let string = sems[i].year + '/'+sems[i].semester;
+      prev_sem_info[string] = query.rows;
+    }
+    console.log(prev_sem_info);
+    
+    
+
+    let final_json = {stud_info:stud_info.rows,curr_sem_info:curr_sem_info.rows , prev_sem_info:prev_sem_info};
+    console.log(final_json);
     res.send(final_json);
   }
   else{
