@@ -9,6 +9,7 @@ import {CourseInfo} from './components/courseInfo';
 import {InstructorInfo} from './components/instructorInfo';
 import {Logout} from './components/logout';
 import {Registration} from './components/registration';
+import {Default} from './components/default';
 
 function App() {
   return(
@@ -16,7 +17,7 @@ function App() {
     
     <Router>
       <Routes>
-    
+      <Route path='/' element={<Default/>}/>
       <Route path='/login/' element={<LoginForm/>} />
       <Route path='/home/' element={<Home/>} />
       <Route path='/course/running/' element={<RunningDepartment/>}/>

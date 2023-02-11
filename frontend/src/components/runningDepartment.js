@@ -8,14 +8,6 @@ export function RunningDepartment(){
         async function fetchData() {           
           const response = await fetch('http://localhost:8080/course/running/');
           const json = await response.json();
-          console.log("This is the json data ")
-          console.log(json);
-          /*
-          if(!json){
-            console.log("not logged in");
-            window.location.replace("/login/");
-          }
-          */
           setData(json);
         }
     

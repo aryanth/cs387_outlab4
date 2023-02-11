@@ -13,8 +13,6 @@ async function RegCourse(course_data) {
       body: JSON.stringify(course_data)
     })
       .then(function(data){
-        console.log("back_data");
-        //console.log(data.data);
         return data;
       }
       )
@@ -38,11 +36,9 @@ export function Registration(){
         async function fetchData() {
         const response0 = await fetch('http://localhost:8080/home/');
         const json0 = await response0.json();  
-        console.log(json0)    
           const response = await fetch(`http://localhost:8080/home/registration`);
           const json1 = await response.json();
           const json = json1.info1;
-          //console.log("this is json data for 1");
           
           const course_data = json1.info2;
 
@@ -64,7 +60,6 @@ export function Registration(){
             
             slot_set.add(slotmap.get(a));
         });
-        console.log(slot_set);
         setOcuppied(slot_set);
 
         
@@ -84,14 +79,6 @@ export function Registration(){
                 output.push(item);
             }
             });
-            console.log("This is the json data for the courses available for registration");
-            console.log(output);
-          /*
-          if(!json){
-            console.log("not logged in");
-            window.location.replace("/login/");
-          }
-          */
           setData(output);
          
         }
@@ -100,21 +87,13 @@ export function Registration(){
     }, []);
     
     const RegisterCourse = async (course_id,sec_id) => {
-        console.log("button has been pressed");
-        console.log(course_id);
-        console.log(sec_id);
         let course_data = {course_id:course_id,sec_id:sec_id};
-        console.log("Coures data");
-        console.log(course_data);
         let string1 = course_id+'/'+sec_id;
-        console.log("prereqs for the course");
         
         if(!occupied.has(slot.get(string1)) ){
             if(sec_id!='-'){
                 const data = await RegCourse({course_data});
                 occupied.add(slot.get(string1));
-                console.log("this");
-                console.log(data.status);
                 if(data.status==200){
                     alert("Registered")
                 }
@@ -128,75 +107,32 @@ export function Registration(){
             alert("Slot Clash with another course");
         }
 
-        //window.location.reload(false);
-        //console.log(ID);
-        //console.log(course_id);
-        //console.log(sec_id);
       }
 
     const handleOnSearch = (string, results) => {
         // onSearch will have as the first callback parameter
         // the string searched and for the second the results.
-        console.log("we have searched");
-        console.log(string, results);
         selVal(results);
-        console.log("selected course is ")
-        console.log(selected_course);
         //{forceUpdate}
     }
 
     const handleOnHover = (result) => {
-        // the item hovered
-        console.log(result)
     }
     
-    const handleOnSelect = (item) => {
-        // the item selected
-        console.log("item has been selected");
-        console.log(item);
-        
+    const handleOnSelect = (item) => {        
     }
     
     const handleOnFocus = () => {
-        console.log('Focused')
     }
 
     const handleOnClear = () => {
-        console.log('Cleared')
     }
     
     const formatResult = (item) => {
-        console.log("Following is the item");
-        console.log(item);
-        /*
-        return (
-            <div className="Table1">
-                <table>
-                <tr>
-                    <th>course_id</th>
-                    <th>title</th>
-                    <th>sec_id</th>
-                </tr>
-                {item.map((val, key) => {
-                    return (
-                    <tr key={key}>
-                        <td>{val.course_id}</td>
-                        <td>{val.title}</td>
-                        <td>{val.sec_id}</td>
-                    </tr>
-                    )
-                })}
-
-                </table>
-            </div>
-        )
-        */
+        
         return (
             <div>
                 <>
-                {/*
-                    <span style={{ display: 'block', textAlign: 'left' }}>{item.course_id}    {item.title}    {item.sec_id} <button onClick={() => RegisterCourse(item.course_id,item.sec_id)}>Register</button></span>
-                */}
                 <span style={{ display: 'block', textAlign: 'left' }}>id: {item.course_id}</span>
                 <span style={{ display: 'block', textAlign: 'left' }}>title: {item.title}</span>
                 <span style={{ display: 'block', textAlign: 'left' }}>sec_id: {item.sec_id}</span>
@@ -212,8 +148,6 @@ export function Registration(){
             val.id = count;
             count  = count + 1;
         })
-        console.log("This is the modified data");
-        console.log(data);
 
         return (
             <div>
@@ -225,7 +159,7 @@ export function Registration(){
           </div> 
             <div>
             <header>
-                <div style={{ width: 600, margin: 20 }}>
+                <div style={{ width: 1000, margin: 20 }}>
                 <ReactSearchAutocomplete
                     items={data}
                     fuseOptions={{ keys: ["course_id", "title"] }} // Search on both fields
@@ -256,35 +190,14 @@ export function Registration(){
                 />
                 </div>
             </header>
-            {/*
-            <div className="Table1">
-                    <table>
-                    <tr>
-                        <th>course_id</th>
-                        <th>title</th>
-                        <th>sec_id</th>
-                    </tr>
-                    {chosen_course.map((val, key) => {
-                        return (
-                        <tr key={key}>
-                            <td>{val.course_id}</td>
-                            <td>{val.title}</td>
-                            <td>{val.sec_id}</td>
-                        </tr>
-                        )
-                    })}
-
-                    </table>
-            </div>
-            */}
             </div>
             {Object.keys(selected_course)!==0 ? (
             <div className="cd-table">
                 <table>
                 <tr>
-                    <th>course_id</th>
-                    <th>title</th>
-                    <th>sec_id</th>
+                    <th>Course ID</th>
+                    <th>Title</th>
+                    <th>Section ID</th>
                     <th>Register</th>
                 </tr>
                 {selected_course.map((val, key) => {

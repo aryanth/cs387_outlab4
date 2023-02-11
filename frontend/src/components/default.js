@@ -1,11 +1,11 @@
 import React,{useState,useEffect} from 'react';
 
-export function Logout(){
+export function Default(){
     const [data, setData] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
-          const response = await fetch(`http://localhost:8080/logout/`);
+          const response = await fetch(`http://localhost:8080/`);
           const json = await response.json();
           setData(json);
         }

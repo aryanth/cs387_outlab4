@@ -1,8 +1,8 @@
 {
-    "user": "sthavir",
-    "host": "localhost",
-    "database": "assignment4",
-    "password": "sthavir@",
+    "user": "postgres",
+    "host": "127.0.0.1",
+    "database": "lab4db",
+    "password": "123",
     "dialect": "postgres",
     "port": 5432
 }

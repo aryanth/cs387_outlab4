@@ -8,17 +8,8 @@ export function InstructorInfo(){
 
     useEffect(() => {
         async function fetchData(instructor_id) {
-          console.log(instructor_id);
           const response = await fetch(`http://localhost:8080/instructor/${instructor_id}`);
           const json = await response.json();
-          console.log("This is the json data for the particular instructor");
-          console.log(json);
-          /*
-          if(!json){
-            console.log("not logged in");
-            window.location.replace("/login/");
-          }
-          */
           setData(json);
         }
     
@@ -38,8 +29,8 @@ export function InstructorInfo(){
                 <div className="cd-table">
                     <table>
                     <tr>
-                        <th>name</th>
-                        <th>dept_name</th>
+                        <th>Instructor Name</th>
+                        <th>Department Name</th>
                     </tr>
                     {(data.instr_info).map((val, key) => {
                         return (
@@ -56,8 +47,8 @@ export function InstructorInfo(){
                 <div className="cd-table">
                     <table>
                     <tr>
-                        <th>course_id</th>
-                        <th>title</th>
+                        <th>Course ID</th>
+                        <th>Title</th>
                     </tr>
                     {(data.curr_sem_data).map((val, key) => {
                         return(

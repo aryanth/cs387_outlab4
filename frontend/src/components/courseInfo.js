@@ -8,20 +8,9 @@ export function CourseInfo(){
 
     useEffect(() => {
         async function fetchData(course_id) {
-          console.log(course_id);
           
           const response = await fetch(`http://localhost:8080/course/${course_id}`);
-          
-
           const json = await response.json();
-          console.log("This is the json data for the particular course");
-          console.log(json);
-          /*
-          if(!json){
-            console.log("not logged in");
-            window.location.replace("/login/");
-          }
-          */
           setData(json);
         }
     
@@ -45,10 +34,10 @@ export function CourseInfo(){
               {(data.course_data).map((val, key) => {
                   return (
                   <div>
-                    <h2>Course Id   :  {val.course_id}</h2>
+                    <h2>Course ID   :  {val.course_id}</h2>
                     <h2>Title        :  {val.title}</h2>
                     <h2>Credits     :  {val.credits}</h2>
-                    <h2>Dept_name  : {val.dept_name}   </h2>
+                    <h2>Department Name  : {val.dept_name}   </h2>
                   </div>
                   )
               })}
@@ -60,8 +49,8 @@ export function CourseInfo(){
           <div className="cd-table">
             <table>
               <tr>
-                <th>prereq_id</th>
-                <th>title</th>
+                <th>Prerequisite ID</th>
+                <th>Title</th>
               </tr>
               {(data.prereq_data).map((val, key) => {
                 return(
@@ -79,7 +68,7 @@ export function CourseInfo(){
           <div className="cd-table">
             <table>
               <tr>
-                <th>id</th>
+                <th>Instructor ID</th>
               </tr>
               {(data.instr_data).map((val, key) => {
                 return(

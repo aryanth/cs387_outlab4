@@ -9,7 +9,6 @@ async function loginUser(credentials) {
       body: JSON.stringify(credentials)
     })
       .then(function(data){
-        console.log("data is " + data);
         return data;
       }
       )
@@ -21,16 +20,11 @@ export function LoginForm(){
     const [password, SetPassword] = useState("");
 
     const OnSubmitForm = async e => {
-        console.log(username);
-        console.log(password);
-        console.log('hi');
         e.preventDefault();
         const data = await loginUser({
             username,
             password
           });
-        console.log(data);
-        console.log(data.status);
         if(data.status == "200"){
           window.location.replace("/home/");
         }
@@ -46,10 +40,10 @@ export function LoginForm(){
           <body>
             <div class="login-form">
               <form onSubmit={OnSubmitForm}>
-                  <h1>Login</h1>
+                  <h1 align="center">IITASC</h1>
                   <div class="content">
                   <div class="input-field">
-                      <input type="text" name="username" id="username" placeholder="Enter Username" value={username} onChange={e => SetUsername(e.target.value)}/>
+                      <input type="text" name="username" id="username" placeholder="Enter User ID" value={username} onChange={e => SetUsername(e.target.value)}/>
                   </div>
                   <div class="input-field">
                       <input type="password" name="password" id="password" placeholder="Enter Password" value={password} onChange={e => SetPassword(e.target.value)}/>

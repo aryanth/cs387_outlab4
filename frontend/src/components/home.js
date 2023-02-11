@@ -11,7 +11,6 @@ async function DelCourse(course_data) {
     body: JSON.stringify(course_data)
   })
     .then(function(data){
-      console.log("data is " + data);
       return data;
     }
     )
@@ -22,13 +21,8 @@ export function Home() {
   const [response_val,setResponse] = useState([]);
 
   const DeleteCourse = async (id,course_id,sec_id) => {
-    console.log(id);
-    console.log(course_id);
-    console.log(sec_id);
     let course_data = {id:id,course_id:course_id,sec_id:sec_id};
-    console.log(course_data);
     const data = await DelCourse({course_data});
-    console.log(data);
     window.location.reload(false);
     
   }
@@ -37,14 +31,6 @@ export function Home() {
     async function fetchData() {
       const response = await fetch('http://localhost:8080/home/');
       const json = await response.json();
-      
-      console.log("This is the json data ")
-      //const parse = JSON.parse(json.prev_sem_info)
-      
-     
-    
-      console.log(json);
-      //console.log(response);
       setData(json);
       setResponse(response);
     }
@@ -84,10 +70,10 @@ export function Home() {
               {(data.stud_info).map((val, key) => {
                   return (
                   <div>
-                    <h3>id: {val.id}</h3>
-                    <h3>name: {val.name}</h3>
-                    <h3>dept_name: {val.dept_name}</h3>
-                    <h3>tot_cred: {val.tot_cred}</h3>
+                    <h3>Student ID: {val.id}</h3>
+                    <h3>Name: {val.name}</h3>
+                    <h3>Department Name: {val.dept_name}</h3>
+                    <h3>Total Credits: {val.tot_cred}</h3>
                   </div>
                   )
               })}
@@ -100,12 +86,12 @@ export function Home() {
           <div className='cd-table'>
             <table>
               <tr>
-                <th>course_id</th>
-                <th>sec_id</th>
-                <th>title</th>
-                <th>credits</th>
-                <th>grade</th>
-                <th>Drop</th>
+                <th>Course ID</th>
+                <th>Section ID</th>
+                <th>Title</th>
+                <th>Credits</th>
+                <th>Grade</th>
+                <th>Deregister</th>
               </tr>
               {(data.curr_sem_info).map((val, key) => {
                 return(
@@ -115,7 +101,7 @@ export function Home() {
                     <td>{val.title}</td>
                     <td>{val.credits}</td>
                     <td>{val.grade}</td>
-                    <td><button onClick={() => DeleteCourse(data.stud_info[0].id,val.course_id,val.sec_id)}>Drop</button></td>
+                    <td><button onClick={() => DeleteCourse(data.stud_info[0].id,val.course_id,val.sec_id)}>Deregister</button></td>
                   </tr>
                 )
               })}
@@ -132,11 +118,11 @@ export function Home() {
                   <div className="cd-table">  
                 <table>
                 <tr>
-                  <th>course_id</th>
-                  <th>sec_id</th>
-                  <th>title</th>
-                  <th>credits</th>
-                  <th>grade</th>
+                  <th>Course ID</th>
+                  <th>Section ID</th>
+                  <th>Title</th>
+                  <th>Credits</th>
+                  <th>Grade</th>
                 </tr>
                 { (data.prev_sem_info[key0]).map((val,key)=>{
                   return(

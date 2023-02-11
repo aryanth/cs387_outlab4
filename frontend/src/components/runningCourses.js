@@ -8,17 +8,8 @@ export function RunningCourses(){
 
     useEffect(() => {
         async function fetchData(dept_name) {
-          console.log(dept_name);
           const response = await fetch(`http://localhost:8080/course/running/${dept_name}`);
           const json = await response.json();
-          console.log("This is the json data ")
-          console.log(json);
-          /*
-          if(!json){
-            console.log("not logged in");
-            window.location.replace("/login/");
-          }
-          */
           setData(json);
         }
     
