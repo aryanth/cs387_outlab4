@@ -8,7 +8,7 @@ const { Pool } = require('pg');
 const PORT = 8080;
 const fs = require('fs')
 
-let rawdata = fs.readFileSync('config.json');
+let rawdata = fs.readFileSync('config.txt');
 let db_info = JSON.parse(rawdata);
 
 const pool = new Pool(db_info)
