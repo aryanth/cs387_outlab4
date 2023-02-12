@@ -53,61 +53,55 @@ export function Home() {
         
         //<h1>home of user</h1>
         <body>
-          <div>
-           <div class = "cd-button">
-           <a class = "link" href="/home"><h3>Home</h3></a>   
-          <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
-          <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
-          <a class = "link" href="/logout"><h3>Logout</h3></a>
-          </div> 
-          <div class="cd-table-container">
-          <h2 class='title'>Student Information</h2>
-          {/* <div className="cd-table">
-            <table> */}
+            <div>
+              <div class = "cd-button">
+                <a class = "link" href="/home"><h3>Home</h3></a>   
+                <a class = "link" href="/course/running"><h3>Running Courses</h3></a>
+                <a class = "link" href="/home/registration"><h3>Register for courses</h3></a>
+                <a class = "link" href="/logout"><h3>Logout</h3></a>
+              </div> 
+              <div class="cd-table-container">
+                <h2 class='title'>Student Information</h2>
               
-                
-              
-              {(data.stud_info).map((val, key) => {
-                  return (
-                  <div>
-                    <h3>Student ID: {val.id}</h3>
-                    <h3>Name: {val.name}</h3>
-                    <h3>Department Name: {val.dept_name}</h3>
-                    <h3>Total Credits: {val.tot_cred}</h3>
-                  </div>
-                  )
-              })}
+                  {(data.stud_info).map((val, key) => {
+                      return (
+                      <div>
+                        <h3>Student ID: {val.id}</h3>
+                        <h3>Name: {val.name}</h3>
+                        <h3>Department Name: {val.dept_name}</h3>
+                        <h3>Total Credits: {val.tot_cred}</h3>
+                      </div>
+                      )
+                  })}
 
-            {/* </table>
-            </div> */}
-          </div>
-          <div class="cd-table-container">
-          <h2 class="title">Current Semester</h2>
-          <div className='cd-table'>
-            <table>
-              <tr>
-                <th>Course ID</th>
-                <th>Section ID</th>
-                <th>Title</th>
-                <th>Credits</th>
-                <th>Grade</th>
-                <th>Deregister</th>
-              </tr>
-              {(data.curr_sem_info).map((val, key) => {
-                return(
-                  <tr key={key}>
-                    <td>{val.course_id}</td>
-                    <td>{val.sec_id}</td>
-                    <td>{val.title}</td>
-                    <td>{val.credits}</td>
-                    <td>{val.grade}</td>
-                    <td><button onClick={() => DeleteCourse(data.stud_info[0].id,val.course_id,val.sec_id)}>Deregister</button></td>
-                  </tr>
-                )
-              })}
-            </table>
-          </div>
-          </div>
+              </div>
+              <div class="cd-table-container">
+                <h2 class="title">Current Semester</h2>
+                  <div className='cd-table'>
+                    <table>
+                      <tr>
+                        <th>Course ID</th>
+                        <th>Section ID</th>
+                        <th>Title</th>
+                        <th>Credits</th>
+                        <th>Grade</th>
+                        <th>Deregister</th>
+                      </tr>
+                      {(data.curr_sem_info).map((val, key) => {
+                        return(
+                          <tr key={key}>
+                            <td>{val.course_id}</td>
+                            <td>{val.sec_id}</td>
+                            <td>{val.title}</td>
+                            <td>{val.credits}</td>
+                            <td>{val.grade}</td>
+                            <td><button onClick={() => DeleteCourse(data.stud_info[0].id,val.course_id,val.sec_id)}>Deregister</button></td>
+                          </tr>
+                        )
+                      })}
+                    </table>
+                  </div>
+              </div>
           
            
               
@@ -142,7 +136,7 @@ export function Home() {
               })}
             
           
-          </div>
+            </div>
         </body>
       
       )

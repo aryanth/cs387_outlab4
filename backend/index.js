@@ -166,10 +166,19 @@ app.get('/instructor/:instructor_id/', async(req,res) => {
     let instr_info = await pool.query(text11);
     const text12 = 'select distinct teaches.course_id,title from teaches,course where (teaches.course_id,semester,year,ID) = (course.course_id,\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\',\'' + req.params.instructor_id + '\') order by (teaches.course_id);';
     let curr_sem_data = await pool.query(text12);
-    const text13 = 'select distinct teaches.course_id,title from teaches,course where (teaches.course_id,ID) = (course.course_id,\'' + req.params.instructor_id + '\') and (semester,year) != (\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\') order by (teaches.course_id);';
-    let prev_sem_data = await pool.query(text13);
+    let prev_sem_data = {}
+    for (let i = 1; i < sems.length;i++){
+      let text13 = 'select teaches.course_id,title from teaches,course where (teaches.course_id,teaches.semester,teaches.year,teaches.ID) = (course.course_id,\''+ sems[i].semester + '\',\''+ sems[i].year + '\',\'' + req.params.instructor_id + '\') order by teaches.course_id desc;';
+      let query = await pool.query(text13);
+      if(query.rowCount != 0){
+        let string = sems[i].year + '/'+sems[i].semester;
+        prev_sem_data[string] = query.rows;
+      }
+    }
+    //const text13 = 'select distinct teaches.course_id,title from teaches,course where (teaches.course_id,ID) = (course.course_id,\'' + req.params.instructor_id + '\') and (semester,year) != (\'' + curr_sem.semester + '\',\'' + curr_sem.year + '\') order by (teaches.course_id);';
+    //let prev_sem_data = await pool.query(text13);
 
-    let final_json = {instr_info:instr_info.rows,curr_sem_data:curr_sem_data.rows,prev_sem_data:prev_sem_data.rows};
+    let final_json = {instr_info:instr_info.rows,curr_sem_data:curr_sem_data.rows,prev_sem_data:prev_sem_data};
     res.send(final_json);
 
   }
