@@ -1,7 +1,7 @@
 {
     "user": "postgres",
     "host": "127.0.0.1",
-    "database": "lab4db",
+    "database": "lab4_final",
     "password": "123",
     "dialect": "postgres",
     "port": 5432

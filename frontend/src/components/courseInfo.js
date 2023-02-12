@@ -64,7 +64,7 @@ export function CourseInfo(){
           </div>
           }
           <h2 class="header">Current Instructors</h2>
-          {(data.prereq_data.length === 0)?<h3>None</h3>:
+          {(data.instr_data.length === 0)?<h3>None</h3>:
           <div className="cd-table">
             <table>
               <tr>

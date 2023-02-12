@@ -66,8 +66,8 @@ export function InstructorInfo(){
                     {(Object.keys(data.prev_sem_data)!=0) &&
                     <table>
                     <tr>
-                        <th>course_id</th>
-                        <th>title</th>
+                        <th>Course ID</th>
+                        <th>Title</th>
                     </tr>
                     {(data.prev_sem_data).map((val, key) => {
                         return(

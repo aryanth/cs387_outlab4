@@ -16,6 +16,7 @@ pool.connect(function(err) {
   if (err) throw err;
 });
 
+
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;
 app.use(cors());
@@ -45,11 +46,18 @@ pool.query(curr_sem_text, (err, res) => {
     //myReject(err.stack);
   } else {
     curr_sem = res.rows[0];
-    sems = res.rows;
   }
 });
 
 
+const prev_sem_text = "select semester,year from (select distinct semester,year from section) as sem_year(semester,year) order by year desc,array_position(array['Spring','Summer','Fall','Winter']::varchar[],semester) desc;"
+pool.query(prev_sem_text, (err, res) => {
+  if (err) {
+    //myReject(err.stack);
+  } else {
+    sems = res.rows;
+  }
+});
 
 app.post('/login/', async (req,res) => {
   session=req.session;
@@ -77,15 +85,17 @@ app.get('/home/', async (req,res) => {
   if(session && session.userid){
     const text1 = 'select student.ID,name,dept_name,tot_cred from student where student.ID = \'' + session.userid + '\';';
     let stud_info = await pool.query(text1);
-    const text3 = 'select course.course_id,sec_id,title,credits,grade from takes,course,reg_dates where (takes.course_id,takes.semester,takes.year,takes.ID,reg_dates.semester,reg_dates.year) = (course.course_id,reg_dates.semester,reg_dates.year,\'' + session.userid + '\',\''+ curr_sem.semester + '\',\''+ curr_sem.year + '\');';
+    const text3 = 'select course.course_id,sec_id,title,credits,grade from takes,course where (takes.course_id,takes.ID,takes.semester,takes.year) = (course.course_id,\'' + session.userid + '\',\''+ curr_sem.semester + '\',\''+ curr_sem.year + '\') order by course.course_id desc;';
     let curr_sem_info = await pool.query(text3);
     
     let prev_sem_info = {}
     for (let i = 1; i < sems.length;i++){
-      const text40 = 'select course.course_id,sec_id,title,credits,grade from takes,course,reg_dates where (takes.course_id,takes.semester,takes.year,takes.ID) = (course.course_id,reg_dates.semester,reg_dates.year,\'' + session.userid + '\') and (reg_dates.semester,reg_dates.year) = (\''+ sems[i].semester + '\',\''+ sems[i].year + '\');';
+      let text40 = 'select course.course_id,sec_id,title,credits,grade from takes,course where (takes.course_id,takes.semester,takes.year,takes.ID) = (course.course_id,\''+ sems[i].semester + '\',\''+ sems[i].year + '\',\'' + session.userid + '\') order by course.course_id desc;';
       let query = await pool.query(text40);
-      let string = sems[i].year + '/'+sems[i].semester;
-      prev_sem_info[string] = query.rows;
+      if(query.rowCount != 0){
+        let string = sems[i].year + '/'+sems[i].semester;
+        prev_sem_info[string] = query.rows;
+      }
     }
     
     
